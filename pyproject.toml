@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling", ]
+build-backend = "hatchling.build"
+
+[project]
+name = "nbcheck-proto"
+version = "0.0.1"
+requires-python = ">=3.8"
+description = "Utility to check the validity of jupyter notebook files"
+keywords = ["jupyter", "notebook", "nbformat", "validation", "utility"]
+authors = [{ "name" = "furechan", "email" = "furechan@xsmail.com" }]
+urls = { "homepage" = "https://github.com/furechan/nbcheck-proto" }
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = ["click", "nbformat"]
+optional-dependencies.dev = ["ipykernel"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License"
+]
+
+[project.scripts]
+nbcheck = "nbcheck:main"
+
+
+[tool.hatch.build]
+dev-mode-dirs = ["src"]
+sources = ["src"]
+include = ["src"]
+exclude = [".*"]
+
+
+[tool.pytest.ini_options]
+addopts = ["-p no:cacheprovider"]
+testpaths = ["tests", ]
+

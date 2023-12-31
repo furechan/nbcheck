@@ -1,0 +1,8 @@
+.vscode/
+.idea/
+dist/
+venv/
+.venv/
+.nox/
+.tox/
+*.pyc
