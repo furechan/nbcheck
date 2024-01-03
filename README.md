@@ -13,7 +13,17 @@ Usage: nbcheck [OPTIONS] [PATH]...
 
 Options:
   -r, --recurse  Recurse to sub directories
+  -v, --verbose  Print validation errors
   --help         Show this message and exit.
+```
+
+## Example
+
+```console
+> nbcheck extras
+pass extras/valid-notebook.ipynb
+fail extras/broken-notebook.ipynb
+fail extras/nbformat-read.ipynb
 ```
 
 ## Installation
