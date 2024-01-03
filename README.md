@@ -25,5 +25,5 @@ pipx install git+ssh://git@github.com/furechan/nbcheck-proto.git
 ```
 
 ## Related Resources
--[nbfornat API](https://nbformat.readthedocs.io/en/latest/api.html)
 -[The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/)
+-[nbfornat API](https://nbformat.readthedocs.io/en/latest/api.html)
