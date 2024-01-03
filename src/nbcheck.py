@@ -22,12 +22,12 @@ def collect_files(paths, *, recurse=False):
         elif path.exists():
             files.append(path)
         else:
-            print(f"Path {path} not found!", file=sys.stderr)
+            raise FileNotFoundError(str(path))
 
     return files
 
 
-def check_notebook(file):
+def check_notebook(file, verbose=False):
     """ check for validation errors """
 
     error_dict = dict()
@@ -36,23 +36,32 @@ def check_notebook(file):
             nbformat.read(f,
                           as_version=nbformat.NO_CONVERT,
                           capture_validation_error=error_dict)
-    except Exception as ex:
-        print("fail", file, str(ex), file=sys.stderr)
+    except Exception as exc:
+        print("fail", file)
+        if verbose:
+            print(exc, file=sys.stderr)
         return False
+
+    if not error_dict:
+        print("pass", file)
+        return True
 
     if error_dict:
-        # error = error_dict['ValidationError']
+        error = error_dict.get('ValidationError')
         print("fail", file)
+        if verbose and error:
+            print(error, file=sys.stderr)
         return False
 
-    print("pass", file)
-    return True
 
 
 @click.command
 @click.argument("path", nargs=-1)
-@click.option("-r", "--recurse", is_flag=True, help="Recurse to sub directories")
-def main(path=(), recurse=False):
+@click.option("-r", "--recurse", is_flag=True,
+              help="Recurse to sub directories")
+@click.option("-v", "--verbose", is_flag=True,
+              help="Print validation errors")
+def main(path=(), recurse=False, verbose=False):
     """ Check notebooks for validation errors """
 
     files = collect_files(path, recurse=recurse)
@@ -60,7 +69,7 @@ def main(path=(), recurse=False):
     error_count = 0
 
     for file in files:
-        if not check_notebook(file):
+        if not check_notebook(file, verbose=verbose):
             error_count += 1
 
     if error_count > 0:

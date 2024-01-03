@@ -21,9 +21,9 @@ Options:
 You can install the latest version of this module with `pip` or `pipx`
 
 ```console
-pipx install git+ssh://git@github.com/furechan/nbcheck-proto.git
+pipx install git+ssh://git@github.com/furechan/nbcheck.git
 ```
 
 ## Related Resources
--[The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/)
--[nbfornat API](https://nbformat.readthedocs.io/en/latest/api.html)
+- [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/)
+- [nbfornat API](https://nbformat.readthedocs.io/en/latest/api.html)
