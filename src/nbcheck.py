@@ -54,7 +54,6 @@ def check_notebook(file, verbose=False):
         return False
 
 
-
 @click.command
 @click.argument("path", nargs=-1)
 @click.option("-r", "--recurse", is_flag=True,
