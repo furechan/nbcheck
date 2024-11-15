@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nbcheck"
-version = "0.0.1"
+version = "0.0.2"
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT License" }
@@ -17,7 +17,6 @@ dependencies = ["click", "nbformat"]
 optional-dependencies.dev = ["ipykernel"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
