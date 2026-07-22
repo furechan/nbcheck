@@ -27,40 +27,61 @@ def collect_files(paths, *, recurse=False):
     return files
 
 
-def check_notebook(file, verbose=False):
+def unexecuted_cells(nb):
+    """ indices of non-empty code cells that have not been executed """
+
+    return [
+        i for i, cell in enumerate(nb.cells)
+        if cell.cell_type == "code"
+        and cell.source.strip()
+        and cell.get("execution_count") is None
+    ]
+
+
+def check_notebook(file, verbose=False, executed=False):
     """ check for validation errors """
 
     error_dict = dict()
     try:
         with open(file, "r") as f:
-            nbformat.read(f,
-                          as_version=nbformat.NO_CONVERT,
-                          capture_validation_error=error_dict)
+            nb = nbformat.read(f,
+                               as_version=nbformat.NO_CONVERT,
+                               capture_validation_error=error_dict)
     except Exception as exc:
         print("fail", file)
         if verbose:
             print(exc, file=sys.stderr)
         return False
 
-    if not error_dict:
-        print("pass", file)
-        return True
-
-    if error_dict:
-        error = error_dict.get('ValidationError')
+    error = error_dict.get('ValidationError')
+    if error:
         print("fail", file)
-        if verbose and error:
+        if verbose:
             print(error, file=sys.stderr)
         return False
+
+    if executed:
+        stale = unexecuted_cells(nb)
+        if stale:
+            print("fail", file)
+            if verbose:
+                cells = ", ".join(str(i) for i in stale)
+                print(f"{file}: unexecuted code cells: {cells}", file=sys.stderr)
+            return False
+
+    print("pass", file)
+    return True
 
 
 @click.command
 @click.argument("path", nargs=-1)
 @click.option("-r", "--recurse", is_flag=True,
               help="Recurse to sub directories")
+@click.option("-x", "--executed", is_flag=True,
+              help="Fail notebooks with unexecuted code cells")
 @click.option("-v", "--verbose", is_flag=True,
               help="Print validation errors")
-def main(path=(), recurse=False, verbose=False):
+def main(path=(), recurse=False, executed=False, verbose=False):
     """ Check notebooks for validation errors """
 
     files = collect_files(path, recurse=recurse)
@@ -68,7 +89,7 @@ def main(path=(), recurse=False, verbose=False):
     error_count = 0
 
     for file in files:
-        if not check_notebook(file, verbose=verbose):
+        if not check_notebook(file, verbose=verbose, executed=executed):
             error_count += 1
 
     if error_count > 0:

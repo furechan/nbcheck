@@ -12,10 +12,13 @@ Usage: nbcheck [OPTIONS] [PATH]...
   Check notebooks for validation errors
 
 Options:
-  -r, --recurse  Recurse to sub directories
-  -v, --verbose  Print validation errors
-  --help         Show this message and exit.
+  -r, --recurse   Recurse to sub directories
+  -x, --executed  Fail notebooks with unexecuted code cells
+  -v, --verbose   Print validation errors
+  --help          Show this message and exit.
 ```
+
+The `--executed` option additionally fails notebooks where any non-empty code cell has no execution count — catching notebooks committed with cleared or never-run outputs. Useful when committed outputs are the published artifact, e.g. notebooks rendered to a docs site without execution.
 
 ## Example
 
