@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nbcheck"
-version = "0.0.3"
+version = "0.0.4"
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT License" }
@@ -26,9 +26,13 @@ nbcheck = "nbcheck:main"
 
 [tool.hatch.build]
 dev-mode-dirs = ["src"]
+
+[tool.hatch.build.targets.wheel]
 sources = ["src"]
-include = ["src"]
-exclude = [".*"]
+only-include = ["src/nbcheck.py"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "README.md", "LICENSE.txt"]
 
 [tool.pydev]
 allow-publish = true
