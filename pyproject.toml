@@ -1,14 +1,15 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+build-backend = "uv_build"
+requires = ["uv_build>=0.8.0,<0.9.0"]
 
 
 [project]
 name = "nbcheck"
-version = "0.0.4"
+version = "0.0.5"
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "MIT License" }
+license = "MIT"
+license-files = ["LICENSE.txt"]
 description = "Utility to check the validity of jupyter notebook files"
 keywords = ["jupyter", "notebook", "nbformat", "validation", "utility"]
 authors = [{ "name" = "furechan", "email" = "furechan@xsmail.com" }]
@@ -23,16 +24,6 @@ classifiers = [
 
 [project.scripts]
 nbcheck = "nbcheck:main"
-
-[tool.hatch.build]
-dev-mode-dirs = ["src"]
-
-[tool.hatch.build.targets.wheel]
-sources = ["src"]
-only-include = ["src/nbcheck.py"]
-
-[tool.hatch.build.targets.sdist]
-include = ["src", "README.md", "LICENSE.txt"]
 
 [tool.pydev]
 allow-publish = true
